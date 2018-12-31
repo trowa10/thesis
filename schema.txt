@@ -1,0 +1,50 @@
+LAPTOP-M8C2TSPM\SQLEXPRESS
+
+"sdfsdf22223%ret"
+
+User registration Page
+-Voter's Id
+-FirstName
+-LastName
+-MiddleName
+-Contact#
+-Address
+-Role
+-Password
+
+User Information Page
+-Voter's Id
+-FirstName
+-LastName
+-MiddleName
+-Contact#
+-Address
+-RoleId
+-Password
+
+Role table
+Id - Integer, Primary Key , Identity = yes
+Name - Varchar(250)
+
+Position Table
+Id - Integer, Primary Key , Identity = yes
+Name - Varchar(250)
+
+Candidate
+-id - integer, Primary Key , Identity = yes
+-voterId - varchar(50)
+-positionId - Integer
+
+Positions Page
+Id
+Name
+
+
+Login Page
+Username
+Password
+
+Voting Page
+
+
+Results
