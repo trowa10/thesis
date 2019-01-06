@@ -11,7 +11,21 @@ namespace UPHSD_OnlineVotingSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack) {
+                if (Session["IsLogged"] != null)
+                {
+                    if (bool.Parse(Session["IsLogged"].ToString()) == false)
+                    {
+                        Session["IsLogged"] = false;
+                        Response.Redirect("LogIn.aspx");
+                    }
+                }
+                else
+                {
+                    Session["IsLogged"] = false;
+                    Response.Redirect("LogIn.aspx");
+                }
+            }
         }
     }
 }
