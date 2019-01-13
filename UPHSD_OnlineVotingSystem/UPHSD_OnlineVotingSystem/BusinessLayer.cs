@@ -42,19 +42,21 @@ namespace UPHSD_OnlineVotingSystem
             return list;
         }
 
-        public ICollection<PositionModel> GetPositions()
+        public ICollection<Model.PositionModel> GetPositions()
         {
-            List<PositionModel> list = new List<PositionModel>();
+            List<Model.PositionModel> list = new List<Model.PositionModel>();
 
             using (IDataReader reader = this._engine.ExecDataReaderProc("GetPositions", new string[] { }))
             {
                 while (reader.Read())
                 {
 
-                    PositionModel obj = new PositionModel()
+                    Model.PositionModel obj = new Model.PositionModel()
                     {
                         Id = (int)reader["Id"],
-                        Name = reader["Name"].ToString()
+                        Name = reader["Name"].ToString(),
+                        Object = reader["Object"].ToString(),
+                        RequireWinner = (int)reader["RequireWinner"]
                     };
                     list.Add(obj);
                 }
@@ -83,9 +85,9 @@ namespace UPHSD_OnlineVotingSystem
             return res;
         }
 
-        public bool Login(LogDTO logDto)
+        public int Login(LogDTO logDto)
         {
-            bool res = false;
+            int res = 0;
             using (IDataReader reader = this._engine.ExecDataReaderProc("GetAuth", new string[] {
                 "username", logDto.VoterId,
                 "password", logDto.Password
@@ -94,12 +96,80 @@ namespace UPHSD_OnlineVotingSystem
                 while (reader.Read())
                 {
 
-                    res = (bool)reader["result"];                 
+                    res = (int)reader["result"];                 
                 }
             }
             this._engine.Dispose();
             return res;
         }
+
+        public ICollection<CandidateModel> GetCandidatesByPosition(int id)
+        {
+            List<Model.CandidateModel> list = new List<Model.CandidateModel>();
+
+            using (IDataReader reader = this._engine.ExecDataReaderProc("GetCandidateByPosition", new object[] { "positionId", id }))
+            {
+                while (reader.Read())
+                {
+
+                    Model.CandidateModel obj = new Model.CandidateModel()
+                    {
+                  
+                        Fullname = reader["fullname"].ToString(),
+                        VoterId = reader["voterid"].ToString()
+                                  
+                    };
+                    list.Add(obj);
+                }
+            }
+
+            return list;
+        }
+
+        public ICollection<VoteModel> GetVotes()
+        {
+            List<Model.VoteModel> list = new List<Model.VoteModel>();
+
+            using (IDataReader reader = this._engine.ExecDataReaderProc("GetVotes", new object[] { }))
+            {
+                while (reader.Read())
+                {
+
+                    Model.VoteModel obj = new Model.VoteModel()
+                    {
+                        Id = (int)reader["id"],
+                        UserId = (int)reader["userId"],
+                        Fullname = reader["fullname"].ToString(),
+                        PositionId = (int)reader["PositionId"],
+                        VotersId = reader["voterid"].ToString()
+
+                    };
+                    list.Add(obj);
+                }
+            }
+
+            return list;
+        }
+
+        public bool SubmitVotes(VoteDTO voteDTO)
+        {
+
+            int result = _engine.ExecNonQueryProc("InsertVote",
+
+                                new object[]
+
+                                    {
+
+                                        "userId", voteDTO.UserId,
+                                        "votersId", voteDTO.VotersId,
+                                        "fullname", voteDTO.Fullname,
+                                        "position", voteDTO.PositionId
+                                    });
+
+
+            return (result > 0) ? true : false;
+        }
+
         public bool RegisterUser(UserDto userDto)
         {
 
@@ -120,8 +190,7 @@ namespace UPHSD_OnlineVotingSystem
 
                                     });
 
-
-            this._engine.Dispose();
+           
             return (result > 0) ? true : false;
         }
 
@@ -134,6 +203,48 @@ namespace UPHSD_OnlineVotingSystem
 
                                         "voterId", candidateDTO.VoterId,
                                         "positionId", candidateDTO.PositionId   
+                                    });
+
+            return (result > 0) ? true : false;
+        }
+
+        public bool RegisterPosition(PositionDTO positionDTO)
+        {
+
+            int result = _engine.ExecNonQueryProc("InsertPosition",
+                                new object[]
+                                    {
+
+                                        "name", positionDTO.Name,
+                                        "winner", positionDTO.RequireWinner,
+                                        "object_name", positionDTO.Object
+                                    });
+
+            return (result > 0) ? true : false;
+        }
+
+        public bool UpdatePosition(UPositionDTO positionDTO)
+        {
+
+            int result = _engine.ExecNonQueryProc("UpdatePosition",
+                                new object[]
+                                    {
+                                        "id", positionDTO.Id,
+                                        "name", positionDTO.Name,
+                                        "winner", positionDTO.RequireWinner,
+                                        "object_name", positionDTO.Object
+                                    });
+
+            return (result > 0) ? true : false;
+        }
+
+        public bool DeletePosition(int Id)
+        {
+
+            int result = _engine.ExecNonQueryProc("DeletePosition",
+                                new object[]
+                                    {
+                                        "id", Id
                                     });
 
             return (result > 0) ? true : false;

@@ -113,6 +113,7 @@
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="CandidateRegistration.aspx" />
+    <Content Include="Configurations.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -121,6 +122,7 @@
     <Content Include="Content\logIn.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
+    <Content Include="Election.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -164,6 +166,7 @@
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
+    <Content Include="Vote.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -189,6 +192,13 @@
     <Compile Include="CandidateRegistration.aspx.designer.cs">
       <DependentUpon>CandidateRegistration.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Configurations.aspx.cs">
+      <DependentUpon>Configurations.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Configurations.aspx.designer.cs">
+      <DependentUpon>Configurations.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -205,7 +215,18 @@
     </Compile>
     <Compile Include="DTO\CandidateDTO.cs" />
     <Compile Include="DTO\LogDTO.cs" />
+    <Compile Include="DTO\ModelDTO.cs" />
+    <Compile Include="DTO\UPositionDTO.cs" />
+    <Compile Include="DTO\PositionDTO.cs" />
     <Compile Include="DTO\UserDto.cs" />
+    <Compile Include="DTO\VoteDTO.cs" />
+    <Compile Include="Election.aspx.cs">
+      <DependentUpon>Election.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Election.aspx.designer.cs">
+      <DependentUpon>Election.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -216,9 +237,12 @@
     <Compile Include="LogIn.aspx.designer.cs">
       <DependentUpon>LogIn.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Model\CandidateModel.cs" />
+    <Compile Include="Model\ObjectModel.cs" />
     <Compile Include="Model\PositionModel.cs" />
     <Compile Include="Model\RoleModel.cs" />
     <Compile Include="Model\UserInfoModel.cs" />
+    <Compile Include="Model\VoteModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -240,6 +264,13 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Vote.aspx.cs">
+      <DependentUpon>Vote.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vote.aspx.designer.cs">
+      <DependentUpon>Vote.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

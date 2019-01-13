@@ -50,9 +50,10 @@ namespace UPHSD_OnlineVotingSystem
                 Password = password.Text
             });
 
-            if (IsLogged)
+            if (IsLogged != 0)
             {
                 Session["IsLogged"] = true;
+                Session["LoggedId"] = IsLogged;
                 Response.Redirect("About.aspx");
                 
             }

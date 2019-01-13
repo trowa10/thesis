@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace UPHSD_OnlineVotingSystem.Model
+namespace UPHSD_OnlineVotingSystem.DTO
 {
-    public class PositionModel
+    public class UPositionDTO
     {
-        public int Id { get; set; }   
+        public int Id { get; set; }
         public string Name { get; set; }
         public int RequireWinner { get; set; }
         public string Object { get; set; }

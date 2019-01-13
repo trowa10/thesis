@@ -25,9 +25,7 @@ namespace UPHSD_OnlineVotingSystem
                     {
                         Session["IsLogged"] = false;
                         Response.Redirect("Default.aspx");
-                    }
-                    else
-                        Response.Redirect("About.aspx");
+                    }               
                 }
                 else
                 {
@@ -38,7 +36,7 @@ namespace UPHSD_OnlineVotingSystem
                 drpPositions.DataSource = Positions;
                 drpPositions.DataTextField = "Name";
                 drpPositions.DataValueField = "Id";
-                drpPositions.DataBind();
+                drpPositions.DataBind();              
             }
 
            
