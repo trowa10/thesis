@@ -123,6 +123,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Election.aspx" />
+    <Content Include="ElectionResult.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -213,6 +214,7 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DTO\UCandidateDTO.cs" />
     <Compile Include="DTO\CandidateDTO.cs" />
     <Compile Include="DTO\LogDTO.cs" />
     <Compile Include="DTO\ModelDTO.cs" />
@@ -227,6 +229,13 @@
     <Compile Include="Election.aspx.designer.cs">
       <DependentUpon>Election.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ElectionResult.aspx.cs">
+      <DependentUpon>ElectionResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ElectionResult.aspx.designer.cs">
+      <DependentUpon>ElectionResult.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -237,6 +246,7 @@
     <Compile Include="LogIn.aspx.designer.cs">
       <DependentUpon>LogIn.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Model\CandidateModel1.cs" />
     <Compile Include="Model\CandidateModel.cs" />
     <Compile Include="Model\ObjectModel.cs" />
     <Compile Include="Model\PositionModel.cs" />

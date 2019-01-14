@@ -61,7 +61,7 @@ namespace UPHSD_OnlineVotingSystem
                     list.Add(obj);
                 }
             }
-           
+
             return list;
         }
 
@@ -81,7 +81,7 @@ namespace UPHSD_OnlineVotingSystem
                     res.LastName = reader["lastname"].ToString();
                 }
             }
-            
+
             return res;
         }
 
@@ -96,7 +96,7 @@ namespace UPHSD_OnlineVotingSystem
                 while (reader.Read())
                 {
 
-                    res = (int)reader["result"];                 
+                    res = (int)reader["result"];
                 }
             }
             this._engine.Dispose();
@@ -114,16 +114,71 @@ namespace UPHSD_OnlineVotingSystem
 
                     Model.CandidateModel obj = new Model.CandidateModel()
                     {
-                  
+
                         Fullname = reader["fullname"].ToString(),
                         VoterId = reader["voterid"].ToString()
-                                  
+
                     };
                     list.Add(obj);
                 }
             }
 
             return list;
+        }
+
+        public bool DeleteCandidate(int id)
+        {
+
+            int result = _engine.ExecNonQueryProc("DeleteCandidateById",
+
+                                new object[]
+
+                                    {
+
+                                        "id", id
+
+                                    });
+
+
+            return (result > 0) ? true : false;
+        }
+
+        public ICollection<CandidateModel1> GetCandidates()
+        {
+            List<Model.CandidateModel1> list = new List<Model.CandidateModel1>();
+
+            using (IDataReader reader = this._engine.ExecDataReaderProc("GetCandidates", new object[] { }))
+            {
+                while (reader.Read())
+                {
+
+                    Model.CandidateModel1 obj = new Model.CandidateModel1()
+                    {
+                        Id = (int)reader["Id"],
+                        VoterId = reader["voterid"].ToString(),
+                        Fullname = reader["fullname"].ToString(),
+                        Position = reader["Name"].ToString()
+
+                    };
+                    list.Add(obj);
+                }
+            }
+
+            return list;
+        }
+
+        public bool UpdateCandidate(UCandidateDTO uCandidateDTO)
+        {
+
+            int result = _engine.ExecNonQueryProc("UpdateCandidate",
+                                new object[]
+                                    {
+                                        "id", uCandidateDTO.Id,
+                                       "voterId",uCandidateDTO.VoterId,
+                                       "positionId", uCandidateDTO.PositionId
+                                    });
+
+            return (result > 0) ? true : false;
         }
 
         public ICollection<VoteModel> GetVotes()
@@ -190,7 +245,7 @@ namespace UPHSD_OnlineVotingSystem
 
                                     });
 
-           
+
             return (result > 0) ? true : false;
         }
 
@@ -202,7 +257,7 @@ namespace UPHSD_OnlineVotingSystem
                                     {
 
                                         "voterId", candidateDTO.VoterId,
-                                        "positionId", candidateDTO.PositionId   
+                                        "positionId", candidateDTO.PositionId
                                     });
 
             return (result > 0) ? true : false;
