@@ -22,13 +22,13 @@ namespace UPHSD_OnlineVotingSystem {
         protected global::System.Web.UI.WebControls.DropDownList drpPositions;
         
         /// <summary>
-        /// btnCHoose control.
+        /// btnCHoose0 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCHoose;
+        protected global::System.Web.UI.WebControls.Button btnCHoose0;
         
         /// <summary>
         /// chCandidates control.

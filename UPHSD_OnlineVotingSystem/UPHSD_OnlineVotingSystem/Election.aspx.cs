@@ -48,7 +48,7 @@ namespace UPHSD_OnlineVotingSystem
                 {
                     if (requiredVotes.RequireWinner == voteCounts)
                     {
-                        btnCHoose.Enabled = false;
+                        Vote_submit.Enabled = false;
                     }
                 }
             }
@@ -111,11 +111,35 @@ namespace UPHSD_OnlineVotingSystem
 
         protected void btnCHoose_Click(object sender, EventArgs e)
         {
+
+        }
+
+        protected void drpPositions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            chCandidates.Visible = false;
+            rdCandidates.Visible = false;
+            chCandidates.DataSource = null;
+            chCandidates.DataBind();
+            rdCandidates.DataSource = null;
+            rdCandidates.DataBind();
+            Vote_submit.Visible = false;
+        }
+
+        protected void btnCHoose0_Click(object sender, EventArgs e)
+        {
             try
             {
                 var Positions = _business.GetPositions();
+                var userId = (int)Session["LoggedId"];
+                var mayvotes = _business.GetVotes().Where(x => x.UserId == userId && x.PositionId == int.Parse(drpPositions.SelectedValue));
+                var voteCounts = mayvotes.Count();
+                var requiredVotes = Positions.Where(x => x.Id == int.Parse(drpPositions.SelectedValue)).FirstOrDefault();
+
                 rdCandidates.DataSource = null;
+                rdCandidates.Enabled = true;
                 chCandidates.DataSource = null;
+                chCandidates.Enabled = true;
+
                 var selectedPost = drpPositions.SelectedValue;
                 var candidates = _business.GetCandidatesByPosition(int.Parse(selectedPost));
                 var objectPost = Positions.Where(x => x.Id == int.Parse(selectedPost)).FirstOrDefault();
@@ -142,22 +166,51 @@ namespace UPHSD_OnlineVotingSystem
                     }
                     Vote_submit.Visible = true;
                 }
+
+                if (requiredVotes != null)
+                {
+                    bool hasVote = false;
+                    if (chCandidates.Visible)
+                    {
+                        for (int i = 0; i < chCandidates.Items.Count; i++)
+                        {
+                            hasVote = mayvotes.Where(x => x.VotersId == chCandidates.Items[i].Value && x.PositionId == int.Parse(selectedPost)).Count() > 0 ? true : false;
+                            if (hasVote)
+                            {
+                                chCandidates.Items[i].Selected = true;
+                                chCandidates.Enabled = false;
+                            }
+
+
+                        }
+                    }
+                    else if (rdCandidates.Visible)
+                    {
+                        for (int i = 0; i < rdCandidates.Items.Count; i++)
+                        {
+                            hasVote = mayvotes.Where(x => x.VotersId == rdCandidates.Items[i].Value && x.PositionId == int.Parse(selectedPost)).Count() > 0 ? true : false;
+                            if (hasVote)
+                            {
+                                rdCandidates.Items[i].Selected = true;
+                                rdCandidates.Enabled = false;
+                            }
+                        }
+
+
+                    }
+
+                    if (requiredVotes.RequireWinner == voteCounts)
+                    {
+                        Vote_submit.Enabled = false;
+                        Response.Write("<script>alert('" + "Vote is already subtmitted for this position." + "');</script>");
+                    }
+                }
+
             }
             catch (Exception ex)
             {
                 Response.Write("<script>alert('" + ex.Message + "');</script>");
             }
-        }
-
-        protected void drpPositions_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            chCandidates.Visible = false;
-            rdCandidates.Visible = false;
-            chCandidates.DataSource = null;
-            chCandidates.DataBind();
-            rdCandidates.DataSource = null;
-            rdCandidates.DataBind();
-            Vote_submit.Visible = false;
         }
     }
 }

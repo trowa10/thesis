@@ -141,7 +141,7 @@ namespace UPHSD_OnlineVotingSystem
                         UserId = (int)reader["userId"],
                         Fullname = reader["fullname"].ToString(),
                         PositionId = (int)reader["PositionId"],
-                        VotersId = reader["voterid"].ToString()
+                        VotersId = reader["votersId"].ToString()
 
                     };
                     list.Add(obj);

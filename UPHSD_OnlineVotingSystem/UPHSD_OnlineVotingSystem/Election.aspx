@@ -28,7 +28,7 @@
                                                     <asp:DropDownList ID="drpPositions" AutoPostBack="true" ClientIDMode="Static" CssClass="form-control" runat="server" OnSelectedIndexChanged="drpPositions_SelectedIndexChanged" ></asp:DropDownList>
                                                 </div>
                                                 <div class="col-xs-3">
-                                                    <asp:Button ID="btnCHoose" name="btnCHoose" class="btn btn-default btn-sm" runat="server" TabIndex="4" Text="See Candidates" OnClick="btnCHoose_Click" />
+                                                    <asp:Button ID="btnCHoose0" name="btnCHoose" class="btn btn-default btn-sm" runat="server" TabIndex="4" Text="See Candidates" OnClick="btnCHoose0_Click" />
                                                 </div>
                                             </div>
                                         </div>
