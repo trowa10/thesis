@@ -6,7 +6,7 @@ using System.Web;
 namespace UPHSD_OnlineVotingSystem.DTO
 {
     public class UserDto
-    {
+    { 
         public string VoterId { get; set; }
         public string Fname { get; set; }
         public string Mname { get; set; }

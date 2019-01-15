@@ -6,7 +6,7 @@ using System.Web;
 namespace UPHSD_OnlineVotingSystem.DTO
 {
     public class UPositionDTO
-    {
+    { 
         public int Id { get; set; }
         public string Name { get; set; }
         public int RequireWinner { get; set; }

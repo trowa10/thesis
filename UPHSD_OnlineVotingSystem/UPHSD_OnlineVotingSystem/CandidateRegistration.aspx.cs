@@ -18,7 +18,7 @@ namespace UPHSD_OnlineVotingSystem
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-            {
+            { 
                 if (Session["IsLogged"] != null)
                 {
                     if (bool.Parse(Session["IsLogged"].ToString()) == false)
@@ -43,15 +43,14 @@ namespace UPHSD_OnlineVotingSystem
 
            
         }
-        private void GridRefresh()
-
+        private void GridRefresh()             
         {
             var listCandidates = _business.GetCandidates();
             grdCandidates.DataSource = listCandidates;
             grdCandidates.DataBind();
         }
         protected void lnkShowInfo_Click(object sender, EventArgs e)
-        {
+        { 
             PnlCandidateInfo.Visible = false;
             var res = this._business.GetUserInfo(txtVotersId.Text);
             if (res.Id != 0)
@@ -79,16 +78,16 @@ namespace UPHSD_OnlineVotingSystem
             txtVotersId.Text = "";
             drpPositions.SelectedIndex = 0;
             PnlCandidateInfo.Visible = false;
-            GridRefresh();
+            GridRefresh(); 
         }
 
         public void Message(string message)
-        {
+        { 
             Response.Write("<script>alert('" + message + "');</script>");           
         }
 
         protected void register_submit_Click(object sender, EventArgs e)
-        {
+        { 
             if (string.IsNullOrEmpty(txtVotersId.Text))
             {
                 txtVotersId.Focus();
@@ -117,9 +116,9 @@ namespace UPHSD_OnlineVotingSystem
         }
 
         protected void update_Click(object sender, EventArgs e)
-        {
+        { 
             if (hdnId.Value != "")
-            {
+            { 
                 UCandidateDTO uCandidateDTO = new UCandidateDTO() {
                     Id = int.Parse(hdnId.Value),
                     PositionId = int.Parse(drpPositions.SelectedValue),
@@ -132,7 +131,7 @@ namespace UPHSD_OnlineVotingSystem
         }
 
         protected void delete_Click(object sender, EventArgs e)
-        {
+        { 
             if (hdnId.Value != "")
             {
                 _business.DeleteCandidate(int.Parse(hdnId.Value));
@@ -142,12 +141,12 @@ namespace UPHSD_OnlineVotingSystem
         }
 
         protected void clear_Click(object sender, EventArgs e)
-        {
+        { 
             Clear();
         }
               
         protected void grdCandidates_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        { 
             hdnId.Value = grdCandidates.SelectedRow.Cells[1].Text;
             txtVotersId.Text = grdCandidates.SelectedRow.Cells[2].Text;
             txtFname.Text = grdCandidates.SelectedRow.Cells[3].Text;
