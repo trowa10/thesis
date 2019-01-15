@@ -54,6 +54,7 @@
                         <li><a runat="server" href="~/CandidateRegistration">Candidate Registration</a></li>
                          <li><a runat="server" href="~/Configurations">Configuration</a></li>
                         <li><a runat="server" href="~/Election">Election</a></li>
+                        <li><a runat="server" href="~/ElectionResult">Election Result</a></li>
                     </ul>
                 </div>
             </div>
