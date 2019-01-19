@@ -8,12 +8,12 @@ using UPHSD_OnlineVotingSystem.DTO;
 
 namespace UPHSD_OnlineVotingSystem
 {
-    public partial class LogIn : System.Web.UI.Page
+    public partial class UserRegistration : System.Web.UI.Page
     {
         BusinessLayer _business = null;
-        public LogIn()
+        public UserRegistration()
         {
-           
+
             this._business = new BusinessLayer();
         }
         protected void Page_Load(object sender, EventArgs e)
@@ -24,54 +24,47 @@ namespace UPHSD_OnlineVotingSystem
                 {
                     if (bool.Parse(Session["IsLogged"].ToString()) == false)
                     {
-                        Session["IsLogged"] = false;                      
+                        Session["IsLogged"] = false;
+                        Response.Redirect("LogIn.aspx");
                     }
-                    else
-                        Response.Redirect("About.aspx");
                 }
                 else
                 {
                     Session["IsLogged"] = false;
-                    Response.Redirect("Default.aspx");
+                    Response.Redirect("LogIn.aspx");
                 }
+
                 var roleList = _business.GetRole();
                 drpRole.DataSource = roleList;
                 drpRole.DataTextField = "Name";
                 drpRole.DataValueField = "Id";
                 drpRole.DataBind();
+
+                var users = _business.GetUsers();
+                grdUsers.DataSource = users;
+                grdUsers.DataBind();
             }
         }
 
-        protected void login_submit_Click(object sender, EventArgs e)
+        private void ClearControls()
         {
-            var IsLogged = _business.Login(new LogDTO()
-            {
-                VoterId = username.Text,
-                Password = password.Text
-            });
 
-            if (IsLogged != 0)
-            {
-                Session["IsLogged"] = true;
-                Session["LoggedId"] = IsLogged;
-                Response.Redirect("About.aspx");
-                
-            }
-            else
-            {
-                Session["IsLogged"] = false;
-                Message("Invalid Username or Password.");               
-            }
+            txtVotersId.Text = string.Empty;
+            txtFname.Text = string.Empty;
+            txtMname.Text = string.Empty;
+            txtLname.Text = string.Empty;
+            txtAddress.Text = string.Empty;
+            drpRole.SelectedIndex = 0;
+            txtContact.Text = string.Empty;
+            txtPassword.Text = string.Empty;
+            txtConfirmPassword.Text = string.Empty;
+            HiddenField1.Value = "";
+
         }
 
         protected void register_submit_Click(object sender, EventArgs e)
         {
-            var users = _business.GetUsers().Where(x => x.VoterId == txtVotersId.Text).FirstOrDefault();
-            if (users != null)
-            {
-                Message("User already exist!.");
-                return;
-            }
+
 
             if (string.IsNullOrEmpty(txtVotersId.Text))
             {
@@ -119,6 +112,29 @@ namespace UPHSD_OnlineVotingSystem
             }
             else
             {
+                var users = _business.GetUsers().Where(x => x.VoterId == txtVotersId.Text).FirstOrDefault();
+                if (users != null)
+                {
+                    var uUserDto = new UUserDto()
+                    {
+                        Id = int.Parse(HiddenField1.Value),
+                        VoterId = txtVotersId.Text,
+                        Fname = txtFname.Text,
+                        Mname = txtMname.Text,
+                        Lname = txtLname.Text,
+                        Address = txtAddress.Text,
+                        RoleId = int.Parse(drpRole.SelectedValue),
+                        ContactNum = txtContact.Text,
+                        Password = txtPassword.Text
+                    };
+                    bool res = _business.UpdateUser(uUserDto);
+
+                    if (res)
+                    {
+                        Message("User information has been updated!");
+                        return;
+                    }
+                }
 
                 var userDto = new UserDto()
                 {
@@ -136,8 +152,11 @@ namespace UPHSD_OnlineVotingSystem
 
                 if (result)
                 {
+                    var lsitUsers = _business.GetUsers();
+                    grdUsers.DataSource = lsitUsers;
+                    grdUsers.DataBind();
+                    ClearControls();
                     Message("Insert User Successfull!");
-                    Response.Redirect("LogIn.aspx");
                 }
                 else
                 {
@@ -145,8 +164,6 @@ namespace UPHSD_OnlineVotingSystem
                 }
             }
         }
-
-
         public void Message(string message)
         {
             Response.Write("<script>alert('" + message + "');</script>");
@@ -158,6 +175,36 @@ namespace UPHSD_OnlineVotingSystem
             //sb.Append("')};");
             //sb.Append("</script>");
             //ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", sb.ToString());
+        }
+
+        protected void grdPostion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            HiddenField1.Value = grdUsers.SelectedRow.Cells[1].Text;
+            txtVotersId.Text = grdUsers.SelectedRow.Cells[2].Text;
+            txtFname.Text = grdUsers.SelectedRow.Cells[3].Text;
+            txtMname.Text = grdUsers.SelectedRow.Cells[4].Text;
+            txtLname.Text = grdUsers.SelectedRow.Cells[5].Text;
+            var roleList = _business.GetRole().Where(x => x.Name == grdUsers.SelectedRow.Cells[7].Text).FirstOrDefault();
+            drpRole.SelectedValue = roleList.Id.ToString();
+            txtContact.Text = grdUsers.SelectedRow.Cells[8].Text;
+            txtAddress.Text = grdUsers.SelectedRow.Cells[9].Text;
+            txtPassword.Text = grdUsers.SelectedRow.Cells[10].Text;
+        }
+
+        protected void delete_Click(object sender, EventArgs e)
+        {
+            if (HiddenField1.Value != string.Empty)
+            {
+                var res = _business.DeleteUser(int.Parse(HiddenField1.Value));
+                if (res)
+                {
+                    var users = _business.GetUsers();
+                    grdUsers.DataSource = users;
+                    grdUsers.DataBind();
+                    ClearControls();
+                    Message("Delete User Successfull!");
+                }
+            }
         }
     }
 }

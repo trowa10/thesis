@@ -38,7 +38,7 @@ namespace UPHSD_OnlineVotingSystem
                     list.Add(obj);
                 }
             }
-            this._engine.Dispose();
+          
             return list;
         }
 
@@ -83,6 +83,32 @@ namespace UPHSD_OnlineVotingSystem
             }
 
             return res;
+        }
+
+        public ICollection<Model.UserInfoModel>  GetUsers()
+        {
+            List<Model.UserInfoModel> list = new List<Model.UserInfoModel>();
+          
+            using (IDataReader reader = this._engine.ExecDataReaderProc("GetUsers", new string[] { }))
+            {
+                while (reader.Read())
+                {
+                    UserInfoModel res = new UserInfoModel();
+                    res.Id = (int)reader["id"];
+                    res.VoterId = reader["voterId"].ToString();
+                    res.FirstName = reader["fname"].ToString();
+                    res.MidName = reader["midname"].ToString();
+                    res.LastName = reader["lastname"].ToString();
+                    res.ContactNumber = reader["contactnum"].ToString();
+                    res.Address = reader["address"].ToString();
+                    res.RoleId = (int)reader["roleId"];
+                    res.Role = reader["name"].ToString();
+                    res.Password = reader["password"].ToString();
+                    list.Add(res);
+                }
+            }
+
+            return list;
         }
 
         public int Login(LogDTO logDto)
@@ -273,6 +299,37 @@ namespace UPHSD_OnlineVotingSystem
                                         "name", positionDTO.Name,
                                         "winner", positionDTO.RequireWinner,
                                         "object_name", positionDTO.Object
+                                    });
+
+            return (result > 0) ? true : false;
+        }
+        public bool DeleteUser(int id)
+        {
+
+            int result = _engine.ExecNonQueryProc("DeleteUser",
+                                new object[]
+                                    {
+                                        "id",id
+                                    });
+
+            return (result > 0) ? true : false;
+        }
+
+        public bool UpdateUser(UUserDto UpdateUser)
+        {
+
+            int result = _engine.ExecNonQueryProc("UpdateUser",
+                                new object[]
+                                    {
+                                        "id",UpdateUser.Id,
+                                        "voterId", UpdateUser.VoterId,
+                                        "fname", UpdateUser.Fname,
+                                        "midname", UpdateUser.Mname,
+                                        "lastname",UpdateUser.Lname,
+                                        "contactnum",UpdateUser.ContactNum,
+                                        "address",UpdateUser.Address,
+                                        "role",UpdateUser.RoleId,
+                                        "password", UpdateUser.Password
                                     });
 
             return (result > 0) ? true : false;

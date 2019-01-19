@@ -84,60 +84,7 @@ namespace UPHSD_OnlineVotingSystem
             //}
         }
 
-        protected void Vote_submit_Click(object sender, EventArgs e)
-        {
-            try
-            {
-
-                if (chCandidates.Visible)
-                {
-
-                    for (int i = 0; i < chCandidates.Items.Count; i++)
-                    {
-                        if (chCandidates.Items[i].Selected)
-                        {
-                            VoteDTO myVote = new VoteDTO()
-                            {
-                                Fullname = chCandidates.Items[i].Text,
-                                PositionId = int.Parse(drpPositions.SelectedValue),
-                                UserId = (int)Session["LoggedId"],
-                                VotersId = chCandidates.Items[i].Value
-                            };
-                            _business.SubmitVotes(myVote);
-                        }
-
-                    }
-                    Response.Write("<script>alert('" + "Vote for " + drpPositions.SelectedItem.Text + "Successfull!." + "');</script>");
-                }
-                else if (rdCandidates.Visible)
-                {
-                    for (int i = 0; i < rdCandidates.Items.Count; i++)
-                    {
-                        if (rdCandidates.Items[i].Selected)
-                        {
-                            VoteDTO myVote = new VoteDTO()
-                            {
-                                Fullname = rdCandidates.Items[i].Text,
-                                PositionId = int.Parse(drpPositions.SelectedValue),
-                                UserId = (int)Session["LoggedId"],
-                                VotersId = rdCandidates.Items[i].Value
-                            };
-                            _business.SubmitVotes(myVote);
-                        }
-
-                    }
-                    Response.Write("<script>alert('" + "Vote for " + drpPositions.SelectedItem.Text + "Successfull!." + "');</script>");
-
-                }
-
-              
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>alert('" + ex.Message + "');</script>");
-            }
-
-        }
+       
 
         protected void btnCHoose_Click(object sender, EventArgs e)
         {
@@ -188,6 +135,60 @@ namespace UPHSD_OnlineVotingSystem
             rdCandidates.DataSource = null;
             rdCandidates.DataBind();
             Vote_submit.Visible = false;
+        }
+
+        protected void Vote_submit_Click1(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (chCandidates.Visible)
+                {
+
+                    for (int i = 0; i < chCandidates.Items.Count; i++)
+                    {
+                        if (chCandidates.Items[i].Selected)
+                        {
+                            VoteDTO myVote = new VoteDTO()
+                            {
+                                Fullname = chCandidates.Items[i].Text,
+                                PositionId = int.Parse(drpPositions.SelectedValue),
+                                UserId = (int)Session["LoggedId"],
+                                VotersId = chCandidates.Items[i].Value
+                            };
+                            _business.SubmitVotes(myVote);
+                        }
+
+                    }
+                    Response.Write("<script>alert('" + "Vote for " + drpPositions.SelectedItem.Text + "Successfull!." + "');</script>");
+                }
+                else if (rdCandidates.Visible)
+                {
+                    for (int i = 0; i < rdCandidates.Items.Count; i++)
+                    {
+                        if (rdCandidates.Items[i].Selected)
+                        {
+                            VoteDTO myVote = new VoteDTO()
+                            {
+                                Fullname = rdCandidates.Items[i].Text,
+                                PositionId = int.Parse(drpPositions.SelectedValue),
+                                UserId = (int)Session["LoggedId"],
+                                VotersId = rdCandidates.Items[i].Value
+                            };
+                            _business.SubmitVotes(myVote);
+                        }
+
+                    }
+                    Response.Write("<script>alert('" + "Vote for " + drpPositions.SelectedItem.Text + "Successfull!." + "');</script>");
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('" + ex.Message + "');</script>");
+            }
         }
     }
 }

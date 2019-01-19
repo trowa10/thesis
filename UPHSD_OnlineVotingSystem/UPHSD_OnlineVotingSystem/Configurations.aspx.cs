@@ -18,28 +18,45 @@ namespace UPHSD_OnlineVotingSystem
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            List<ObjectModel> objectModels = new List<ObjectModel>();
-            objectModels.Add(new ObjectModel()
-            {
-                Id = 1,
-                Name = "RadioButton"
-            });
-            objectModels.Add(new ObjectModel()
-            {
-                Id = 2,
-                Name = "Checkbox"
-            });
-
             if (!IsPostBack)
             {
-                drpPositionObject.DataSource = objectModels;
-                drpPositionObject.DataTextField = "Name";
-                drpPositionObject.DataValueField = "Name";
-                drpPositionObject.DataBind();
-                GridRefresh();
-            }       
 
-           
+                if (Session["IsLogged"] != null)
+                {
+                    if (bool.Parse(Session["IsLogged"].ToString()) == false)
+                    {
+                        Session["IsLogged"] = false;
+                        Response.Redirect("LogIn.aspx");
+                    }
+                }
+                else
+                {
+                    Session["IsLogged"] = false;
+                    Response.Redirect("LogIn.aspx");
+                }
+
+                List<ObjectModel> objectModels = new List<ObjectModel>();
+                objectModels.Add(new ObjectModel()
+                {
+                    Id = 1,
+                    Name = "RadioButton"
+                });
+                objectModels.Add(new ObjectModel()
+                {
+                    Id = 2,
+                    Name = "Checkbox"
+                });
+
+                if (!IsPostBack)
+                {
+                    drpPositionObject.DataSource = objectModels;
+                    drpPositionObject.DataTextField = "Name";
+                    drpPositionObject.DataValueField = "Name";
+                    drpPositionObject.DataBind();
+                    GridRefresh();
+                }
+            }
+
         }
         public void GridRefresh()
         {
@@ -118,7 +135,7 @@ namespace UPHSD_OnlineVotingSystem
         protected void delete_Click(object sender, EventArgs e)
         {
             try
-            {               
+            {
                 var result = _business.DeletePosition(int.Parse(lblId.Text));
                 if (result)
                     Response.Write("<script>alert('" + "Delete Successfull!" + "');</script>");

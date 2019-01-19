@@ -13,6 +13,15 @@ namespace UPHSD_OnlineVotingSystem {
     public partial class SiteMaster {
         
         /// <summary>
+        /// lnkLogout control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkLogout;
+        
+        /// <summary>
         /// MainContent control.
         /// </summary>
         /// <remarks>

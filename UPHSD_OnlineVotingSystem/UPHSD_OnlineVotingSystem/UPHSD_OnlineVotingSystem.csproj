@@ -166,6 +166,7 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
+    <Content Include="UserRegistration.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Vote.aspx" />
     <Content Include="Web.config">
@@ -220,6 +221,7 @@
     <Compile Include="DTO\ModelDTO.cs" />
     <Compile Include="DTO\UPositionDTO.cs" />
     <Compile Include="DTO\PositionDTO.cs" />
+    <Compile Include="DTO\UUserDto.cs" />
     <Compile Include="DTO\UserDto.cs" />
     <Compile Include="DTO\VoteDTO.cs" />
     <Compile Include="Election.aspx.cs">
@@ -267,6 +269,13 @@
     </Compile>
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="UserRegistration.aspx.cs">
+      <DependentUpon>UserRegistration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserRegistration.aspx.designer.cs">
+      <DependentUpon>UserRegistration.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>

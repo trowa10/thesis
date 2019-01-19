@@ -54,7 +54,7 @@
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-sm-6 col-sm-offset-3">
-                                                    <asp:Button ID="Vote_submit" Visible="false" name="register_submit" class="form-control btn btn-register" runat="server" TabIndex="4" Text="Vote Now" OnClientClick="return confirm('Are you certain you want to submit your vote?');"  />
+                                                    <asp:Button ID="Vote_submit" Visible="false" name="register_submit" class="form-control btn btn-register" runat="server" TabIndex="4" Text="Vote Now" OnClientClick="return confirm('Are you certain you want to submit your vote?');" OnClick="Vote_submit_Click1"  />
 
                                                 </div>
                                             </div>

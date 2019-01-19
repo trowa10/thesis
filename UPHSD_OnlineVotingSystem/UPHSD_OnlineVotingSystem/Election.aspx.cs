@@ -50,6 +50,8 @@ namespace UPHSD_OnlineVotingSystem
                     {
                         Vote_submit.Enabled = false;
                     }
+                    else
+                        Vote_submit.Enabled = true;
                 }
             }
         }
@@ -58,6 +60,18 @@ namespace UPHSD_OnlineVotingSystem
         {
             try
             {
+                var userId = (int)Session["LoggedId"];
+                var mayvotes = _business.GetVotes().Where(x => x.UserId == userId && x.PositionId == int.Parse(drpPositions.SelectedValue));
+                var voteCounts = mayvotes.Count();
+                var Positions = _business.GetPositions();
+                var requiredVotes = Positions.Where(x => x.Id == int.Parse(drpPositions.SelectedValue)).FirstOrDefault();
+
+                if (requiredVotes.RequireWinner == voteCounts)
+                {
+                    Vote_submit.Enabled = false;
+                    Response.Write("<script>alert('" + "Vote is already subtmitted for this position." + "');</script>");
+                    return;
+                }
 
                 if (chCandidates.Visible)
                 {
@@ -96,7 +110,7 @@ namespace UPHSD_OnlineVotingSystem
                         }
 
                     }
-                    Response.Write("<script>alert('" + "Vote for " + drpPositions.SelectedItem.Text + "Successfull!." + "');</script>");
+                    Response.Write("<script>alert('" + "Vote for " + drpPositions.SelectedItem.Text + " Successfull!." + "');</script>");
 
                 }
 
@@ -109,10 +123,7 @@ namespace UPHSD_OnlineVotingSystem
 
         }
 
-        protected void btnCHoose_Click(object sender, EventArgs e)
-        {
-
-        }
+     
 
         protected void drpPositions_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -144,31 +155,47 @@ namespace UPHSD_OnlineVotingSystem
                 var candidates = _business.GetCandidatesByPosition(int.Parse(selectedPost));
                 var objectPost = Positions.Where(x => x.Id == int.Parse(selectedPost)).FirstOrDefault();
                 var data = Positions.Where(x => x.Id == int.Parse(selectedPost));
-                if (objectPost != null && candidates != null)
-                {
-                    if (objectPost.Object == "RadioButton")
-                    {
-                        rdCandidates.DataSource = candidates;
-                        rdCandidates.DataTextField = "Fullname";
-                        rdCandidates.DataValueField = "VoterId";
-                        rdCandidates.DataBind();
-                        rdCandidates.Visible = true;
-                        chCandidates.Visible = false;
-                    }
-                    else
-                    {
-                        chCandidates.DataSource = candidates;
-                        chCandidates.DataTextField = "Fullname";
-                        chCandidates.DataValueField = "VoterId";
-                        chCandidates.DataBind();
-                        rdCandidates.Visible = false;
-                        chCandidates.Visible = true;
-                    }
-                    Vote_submit.Visible = true;
-                }
+              
 
                 if (requiredVotes != null)
                 {
+                    if (requiredVotes.RequireWinner == voteCounts)
+                    {
+                        Vote_submit.Enabled = false;
+                        Response.Write("<script>alert('" + "Vote is already subtmitted for this position." + "');</script>");
+                        return;
+                    }
+
+                    if (objectPost != null && candidates.Count > 0)
+                    {
+                        if (objectPost.Object == "RadioButton")
+                        {
+                            rdCandidates.DataSource = candidates;
+                            rdCandidates.DataTextField = "Fullname";
+                            rdCandidates.DataValueField = "VoterId";
+                            rdCandidates.DataBind();
+                            rdCandidates.Visible = true;
+                            chCandidates.Visible = false;
+                        }
+                        else
+                        {
+                            chCandidates.DataSource = candidates;
+                            chCandidates.DataTextField = "Fullname";
+                            chCandidates.DataValueField = "VoterId";
+                            chCandidates.DataBind();
+                            rdCandidates.Visible = false;
+                            chCandidates.Visible = true;
+                        }
+                        Vote_submit.Visible = true;
+                        Vote_submit.Enabled = true;
+                    }
+                    else
+                    {
+                        Vote_submit.Visible = false;
+                        Response.Write("<script>alert('" + "No candidates at the moment!." + "');</script>");
+                    }
+                        
+
                     bool hasVote = false;
                     if (chCandidates.Visible)
                     {
@@ -195,15 +222,9 @@ namespace UPHSD_OnlineVotingSystem
                                 rdCandidates.Enabled = false;
                             }
                         }
-
-
                     }
 
-                    if (requiredVotes.RequireWinner == voteCounts)
-                    {
-                        Vote_submit.Enabled = false;
-                        Response.Write("<script>alert('" + "Vote is already subtmitted for this position." + "');</script>");
-                    }
+                  
                 }
 
             }
