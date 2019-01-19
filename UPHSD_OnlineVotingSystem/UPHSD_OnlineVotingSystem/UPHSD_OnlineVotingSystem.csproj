@@ -250,6 +250,7 @@
     </Compile>
     <Compile Include="Model\CandidateModel1.cs" />
     <Compile Include="Model\CandidateModel.cs" />
+    <Compile Include="Model\ElectionResult.cs" />
     <Compile Include="Model\ObjectModel.cs" />
     <Compile Include="Model\PositionModel.cs" />
     <Compile Include="Model\RoleModel.cs" />

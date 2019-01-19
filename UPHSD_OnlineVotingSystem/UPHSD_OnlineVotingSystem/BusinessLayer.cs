@@ -128,6 +128,28 @@ namespace UPHSD_OnlineVotingSystem
             this._engine.Dispose();
             return res;
         }
+        public ICollection<Model.ElectionResult> GetElectionResults()
+        {
+            List<Model.ElectionResult> list = new List<Model.ElectionResult>();
+
+            using (IDataReader reader = this._engine.ExecDataReaderProc("GetElectionResults", new object[] { }))
+            {
+                while (reader.Read())
+                {
+
+                    Model.ElectionResult obj = new Model.ElectionResult()
+                    {
+                        VoteCount = (int)reader["VoteCount"],
+                        FullName = reader["Fullname"].ToString(),                        
+                        Position = reader["Name"].ToString()
+
+                    };
+                    list.Add(obj);
+                }
+            }
+
+            return list;
+        }
 
         public ICollection<CandidateModel> GetCandidatesByPosition(int id)
         {
